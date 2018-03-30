@@ -1,12 +1,17 @@
+import sys
+import os
+sys.path.insert(0,os.path.dirname(os.path.realpath(__file__)))
 from flask import Flask
+from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import Manager
 from config import Config
+from ihome import app, db
 
-app = Flask(__name__)
+manage = Manager(app)
+Migrate(app, db)
+manage.add_command('db', MigrateCommand)
 
-app.config.from_object(Config)
-@app.route('/index')
-def index():
-    return 'index'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+    manage.run()
