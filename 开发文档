@@ -1,0 +1,2 @@
+flask自带的session 和Session是不一样的,
+工厂模式
