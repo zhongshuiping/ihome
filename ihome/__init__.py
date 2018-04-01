@@ -4,6 +4,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 from config import map_config
 from ihome.api_1_0 import api
+from .views_html import static_html
 
 db = SQLAlchemy()
 
@@ -17,11 +18,13 @@ def genarate(type):
     # 创建连接到mysql实例
 
     db.init_app(app)
-
-    app.register_blueprint(api, url_prefix='/api/v1')
+    #注册api的路径
+    app.register_blueprint(api, url_prefix='/api/v1.0')
+    #注册查找静态页面的路由
+    app.register_blueprint(static_html)
 
     # 开启CSRF保护:制作校验. 没有设置csrf的cookie和表单的csrf_token
-    # CSRFProtect(app)
+    CSRFProtect(app)
     # 指定session数据保存的位置
     Session(app)
     return app
