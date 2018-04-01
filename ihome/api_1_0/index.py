@@ -16,3 +16,4 @@ def index():
     if not all([mobile,password]):
         return jsonify(errno=1,errmeg='参数不完整')
     return 'index'
+

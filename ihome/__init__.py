@@ -23,7 +23,7 @@ def genarate(type):
     app.url_map.converters['re'] = RegxConverter
 
     #注册api的路径
-    app.register_blueprint(api, url_prefix='/api/v1.0')
+    app.register_blueprint(api, url_prefix='/api/v1_0')
     #注册查找静态页面的路由
     app.register_blueprint(static_html)
 

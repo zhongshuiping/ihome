@@ -9,6 +9,5 @@ def show_html(filename):
 
     if not filename:
         filename = 'index.html'
-    # filename = '/html/' + filename
-    # print(filename)
+
     return static_html.send_static_file(filename)
