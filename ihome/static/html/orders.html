@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>爱家-我的订单</title>
-    <link href="../plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="../css/reset.css" rel="stylesheet">
-    <link href="../plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
-    <link href="../css/ihome/main.css" rel="stylesheet">
-    <link href="../css/ihome/orders.css" rel="stylesheet">
+    <link href="/static/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/css/reset.css" rel="stylesheet">
+    <link href="/static/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="/static/css/ihome/main.css" rel="stylesheet">
+    <link href="/static/css/ihome/orders.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -33,10 +33,6 @@
                         <div class="fr order-operate">
                             <button type="button" class="btn btn-success order-comment" data-toggle="modal" data-target="#comment-modal">发表评价</button>
                         </div>
-                        {{ else if "WAIT_PAYMENT" == order.status }}
-                        <div class="fr order-operate">
-                            <button type="button" class="btn btn-success order-pay">去支付</button>
-                        </div>
                         {{/if}}
                     </div>
                     <div class="order-content">
@@ -52,8 +48,6 @@
                                     <span>
                                         {{if "WAIT_ACCEPT" == order.status}}
                                             待接单
-                                        {{else if "WAIT_PAYMENT" == order.status}}
-                                            待支付
                                         {{else if "WAIT_COMMENT" == order.status}}
                                             待评价
                                         {{else if "COMPLETE" == order.status}}
@@ -89,7 +83,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary modal-comment">确定</button>
+                            <button type="button" class="btn btn-primary modal-comment" order-id="">确定</button>
                         </div>
                     </div>
                 </div>
@@ -100,11 +94,11 @@
         </div> 
     </div>
     
-    <script src="../js/jquery.min.js"></script>
-    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="../plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
-    <script src="../js/template.js"></script>
-    <script src="../js/ihome/orders.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="/static/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="/static/js/template.js"></script>
+    <script src="/static/js/ihome/orders.js"></script>
 </body>
 </html>

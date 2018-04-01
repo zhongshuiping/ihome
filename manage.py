@@ -1,6 +1,7 @@
 from flask_migrate import Migrate, MigrateCommand
 from flask_migrate import Manager
 from ihome import genarate, db
+from ihome.models import *
 
 app = genarate('dev')
 
