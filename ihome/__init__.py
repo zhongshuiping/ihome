@@ -5,6 +5,7 @@ from flask_session import Session
 from config import map_config
 from ihome.api_1_0 import api
 from .views_html import static_html
+from .utils.common import RegxConverter
 
 db = SQLAlchemy()
 
@@ -18,6 +19,9 @@ def genarate(type):
     # 创建连接到mysql实例
 
     db.init_app(app)
+    #注册自定义的转换器
+    app.url_map.converters['re'] = RegxConverter
+
     #注册api的路径
     app.register_blueprint(api, url_prefix='/api/v1.0')
     #注册查找静态页面的路由
