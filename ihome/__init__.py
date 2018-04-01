@@ -18,10 +18,10 @@ def genarate(type):
 
     db.init_app(app)
 
-    app.register_blueprint(api, url_prefix='/api/v1.0')
+    app.register_blueprint(api, url_prefix='/api/v1')
 
     # 开启CSRF保护:制作校验. 没有设置csrf的cookie和表单的csrf_token
-    CSRFProtect(app)
+    # CSRFProtect(app)
     # 指定session数据保存的位置
     Session(app)
     return app

@@ -9,7 +9,7 @@ class Config(object):
     DEBUG = True
 
     # 数据库的配置信息
-    SQLALCHEMY_DATABASE_URI = "mysql://root:mysql@192.168.182.137:3306/iHome"
+    SQLALCHEMY_DATABASE_URI = "mysql://root:mysql@192.168.182.138:3306/iHome"
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     # redis配置
