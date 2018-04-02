@@ -1,6 +1,6 @@
 import redis
 import uuid
-
+import logging
 
 class Config(object):
 
@@ -11,7 +11,7 @@ class Config(object):
     # 数据库的配置信息
     SQLALCHEMY_DATABASE_URI = "mysql://root:mysql@192.168.182.138:3306/iHome"
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-
+    LEVEL = logging.DEBUG
     # redis配置
     REDIS_HOST = "127.0.0.1"
     REDIS_PORT = 6379
@@ -31,8 +31,9 @@ class DevConfig(Config):
 
 
 class ProConfig(Config):
-    DEBUG = False
 
+    DEBUG = False
+    LEVEL = logging.WARN
     # 数据库的配置信息
 
 class UtestConfig(Config):

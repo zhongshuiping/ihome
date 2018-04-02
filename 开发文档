@@ -20,4 +20,22 @@ flask自带的session 和Session是不一样的,
  生成uuid  拼接请求地址 将url赋值给img标签的src属性
  -----------------------------------------------
  日志
+ 工厂模式封装日志
+ 定义一个发送短信的视图
+ 功能:1.接收参数  手机号 图片验证码 uuid
+ 判断参数是否缺少
+ 获取服务器存储的验证码
+ 验证通过,发送短信给收到的手机号码
+ request.data 保存请求报文中的原始字符串
+ 校燕手机号是否合格
 
+ url
+ type
+ JSON.stringify(params)
+ contentType:'application/json'
+ headers:{''}
+ success
+
+ from flask_wtf.csrf import csrf
+ 在到静态页面前,将csrf_token写入cookie
+ 中
