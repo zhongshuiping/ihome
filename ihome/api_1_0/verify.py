@@ -36,7 +36,8 @@ def sms():
     try:
         sms_code = '%04d' % random.randint(0,9999)
         current_app.logger.debug('短信验证码'+sms_code)
-        redis.set('sms_code:'+uuid,sms_code,ex=constants.SMS_CODE_REDIS_EXPIRES)
+        # 设置短信验证码到数据库
+        redis.set('sms_code:'+mobile_client+uuid,sms_code,ex=constants.SMS_CODE_REDIS_EXPIRES)
         ret = CCP().send_template_sms(mobile_client, ["1234", "5"], 1)
         if ret == 0:
             return jsonify({'errno':RET.OK,'errmsg':'发送短信成功'})

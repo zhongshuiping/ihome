@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 from config import map_config
-from ihome.api_1_0 import api
+
 from .views_html import static_html
 from .utils.common import RegxConverter
 import logging
@@ -42,6 +42,7 @@ def genarate(type):
     app.url_map.converters['re'] = RegxConverter
 
     #注册api的路径
+    from ihome.api_1_0 import api
     app.register_blueprint(api, url_prefix='/api/v1_0')
     #注册查找静态页面的路由
     app.register_blueprint(static_html)

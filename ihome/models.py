@@ -1,7 +1,7 @@
 from datetime import datetime
-from . import db
+from ihome import db
 from werkzeug.security import generate_password_hash,check_password_hash
-from . import constants
+from ihome import constants
 
 class BaseModel(object):
     """模型基类，为每个模型补充创建时间与更新时间"""
@@ -24,28 +24,11 @@ class User(BaseModel,db.Model):
 
     @property
     def password(self):
-        """读取属性的函数行为"""
-        # print(user.password)  # 读取属性时被调用
-        # 函数的返回值会作为属性值
-        # return "xxxx"
         raise AttributeError("这个属性只能设置，不能读取")
 
     @password.setter
     def password(self,value):
-        """
-                设置属性  user.passord = "xxxxx"
-                :param value: 设置属性时的数据 value就是"xxxxx", 原始的明文密码
-                :return:
-                """
         self.password_hash = generate_password_hash(value)
-
-    def check_password(self,password):
-        """
-                检验密码的正确性
-                :param passwd:  用户登录时填写的原始密码
-                :return: 如果正确，返回True， 否则返回False
-                """
-        return check_password_hash(self.password_hash, password)
 
     def to_dict(self):
         """将对象转换为字典数据"""

@@ -9,7 +9,7 @@ class Config(object):
     DEBUG = True
 
     # 数据库的配置信息
-    SQLALCHEMY_DATABASE_URI = "mysql://root:mysql@192.168.182.138:3306/iHome"
+    SQLALCHEMY_DATABASE_URI = "mysql://root:mysql@192.168.182.139:3306/iHome"
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     LEVEL = logging.DEBUG
     # redis配置
@@ -37,7 +37,7 @@ class ProConfig(Config):
     # 数据库的配置信息
 
 class UtestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = "mysql://root:mysql@192.168.182.137:3306/iHome_test"
+    SQLALCHEMY_DATABASE_URI = "mysql://root:mysql@192.168.182.139:3306/iHome_test"
 
 map_config = {
     'default':Config,

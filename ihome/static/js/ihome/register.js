@@ -98,4 +98,50 @@ $(document).ready(function() {
     });
 
     // TODO: 注册的提交(判断参数是否为空)
-})
+    $('.form-register').submit(function (event) {
+        event.preventDefault();
+        //我需要给后台的数据 手机号码 密码 uuid csrf
+    var mobile = $('#mobile').val();
+    var phonecode = $('#phonecode').val();
+    var password2 = $('#password2').val();
+    var password = $('#password').val();
+    if (!mobile) {
+        $("#image-code-err span").html("请填写手机号码！");
+        $("#image-code-err").show();
+        return
+    };
+    if (!phonecode) {
+        $("#image-code-err span").html("请填写验证码！");
+        $("#image-code-err").show();
+        return
+    };
+    if (password!=password2) {
+        $("#image-code-err span").html("二次密码不一致");
+        $("#image-code-err").show();
+        return
+    };
+    data = {
+        'mobile':mobile,
+        'sms_code':phonecode,
+        'uuid':uuid,
+        'password':password
+    };
+    $.ajax({
+        url:'/api/v1_0/users',
+        type:'post',
+        contentType: "application/json",
+        data:JSON.stringify(data),
+        headers:{'X-CSRFToken':getCookie('csrf_token')},
+        success:function (data) {
+            if(data.errno=='0'){
+
+                window.location.href = '/'
+            }else {
+                console.log(data.errmsg)
+            }
+        }
+    });
+
+    });
+
+});
