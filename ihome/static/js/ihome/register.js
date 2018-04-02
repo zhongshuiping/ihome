@@ -44,6 +44,38 @@ function sendSMSCode() {
     }
 
     // TODO: 通过ajax方式向后端接口发送请求，让后端发送短信验证码
+    //想后端发送请求 传递手机号码 验证码 uuid  和csrf_token
+    var data = {
+            'mobile':mobile,
+            'image_code':imageCode,
+            'uuid':uuid
+        }
+    $.ajax({
+        url:'/api/v1_0/sms_code',
+        type:'post',
+        contentType: "application/json",
+        data:JSON.stringify(data),
+        headers:{'X-CSRFToken':getCookie('csrf_token')},
+        success:function (data) {
+            // if(data.errno==0){
+                 var num = 60;
+            // 表示发送成功
+            var timer = setInterval(function () {
+                if (num >= 1) {
+                    // 修改倒计时文本
+                    $(".phonecode-a").html(num + "秒");
+                    num -= 1;
+                } else {
+                    $(".phonecode-a").html("获取验证码");
+                    $(".phonecode-a").attr("onclick", "sendSMSCode();");
+                    clearInterval(timer);
+                }
+            }, 1000, 60);
+            // }else{
+            //     $(".phonecode-a").attr("onclick", "sendSMSCode();");
+            // }
+        }
+    })
 }
 
 $(document).ready(function() {
