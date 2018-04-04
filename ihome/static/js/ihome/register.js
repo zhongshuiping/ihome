@@ -15,16 +15,18 @@ function generateUUID() {
     });
     return uuid;
 }
+
 var uuid = "";
 var last_uuid = '';
 // 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
 function generateImageCode() {
     uuid = generateUUID();
-    url = '/api/v1_0/verify_code?uuid='+uuid+'&last_uuid='+last_uuid;
+    url = '/api/v1_0/verifycode?uuid='+uuid+'&last_uuid='+last_uuid;
     var $img = $('.image-code>img').attr('src',url);
     last_uuid = uuid;
 }
 
+//用户点击发送验证码执行的逻辑
 function sendSMSCode() {
     // 校验参数，保证输入框有数据填写
     $(".phonecode-a").removeAttr("onclick");
@@ -51,7 +53,7 @@ function sendSMSCode() {
             'uuid':uuid
         }
     $.ajax({
-        url:'/api/v1_0/sms_code',
+        url:'/api/v1_0/smscode',
         type:'post',
         contentType: "application/json",
         data:JSON.stringify(data),
@@ -78,6 +80,7 @@ function sendSMSCode() {
     })
 }
 
+// 用户点击注册执行的逻辑
 $(document).ready(function() {
     generateImageCode();  // 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
     $("#mobile").focus(function(){
@@ -137,7 +140,7 @@ $(document).ready(function() {
 
                 window.location.href = '/'
             }else {
-                console.log(data.errmsg)
+                alert(data.errmsg)
             }
         }
     });

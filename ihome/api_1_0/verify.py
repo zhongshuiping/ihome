@@ -7,12 +7,12 @@ from ihome.utils.response_code import RET
 import re
 import random
 from ihome.libs.yuntongxun.sms import CCP
-
+from ihome.models import User
 
 # 获取redis数据库的链接
 redis = Config.get_redis_connect()
 
-@api.route('/sms_code',methods=['POST'])  #发送短信验证码
+@api.route('/smscode',methods=['POST'])  #发送短信验证码
 def sms():
     #首先要接收数据,对数据进行验证,只有验证通过才能发送短信,需要接收三个数据,手机号码 验证码 uuid
     data = request.get_json()
@@ -26,8 +26,12 @@ def sms():
 
     if not re.match('^1[358]\d{9}$|^147\d{8}$|^176\d{8}$',mobile_client):
         return jsonify({'errno':RET.PARAMERR,'errmsg':'手机号码错误'})
-    image_code_server = redis.get('image_code:'+uuid)
 
+    user = User.query.filter_by(mobile=mobile_client)
+    if user:
+        return jsonify({'errno': RET.DATAEXIST, 'errmsg': '手机号已经存在'})
+
+    image_code_server = redis.get('image_code:'+uuid)
     if not image_code_server:
         return jsonify({'errno':RET.NODATA,'errmsg':'验证码过期'})
 
@@ -47,7 +51,7 @@ def sms():
         return jsonify({'errno':RET.DATAERR,'errmsg':'保存短信验证码失败'})
 
 
-@api.route('/verify_code')
+@api.route('/verifycode')
 def verify():
     name, text, image = captcha.generate_captcha()
     uuid = request.args.get('uuid')

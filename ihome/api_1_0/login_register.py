@@ -1,13 +1,24 @@
-from flask import request,jsonify,current_app
+from flask import request,jsonify,current_app,session
 from . import api
 from ihome.utils.response_code import RET
 import re
 from config import Config
-
 from ihome.models import User
 
 redis = Config.get_redis_connect()
 
+'''
+退出登陆
+'''
+@api.route('/sessions',methods=['DELETE'])
+def logout():
+    session.pop('user_id')
+    session.pop('username')
+    return jsonify({'errno':RET.OK,'errmsg':'退出成功'})
+
+'''
+用户注册的逻辑
+'''
 @api.route('/users',methods=['POST'])
 def register():
     '''对用户的注册的认证'''
@@ -41,3 +52,32 @@ def register():
         current_app.logger.error(e)
         db.session.rollback()
         return jsonify({'errno':RET.SERVERERR,'errmsg':'插入user到数据库失败'})
+
+'''
+用户登陆的接口
+'''
+@api.route('/sessions',methods=['POST'])
+def login():
+    data = request.get_json()
+    mobile = data.get('mobile')
+    password = data.get('password')
+
+    if not all([mobile,password]):
+        return jsonify({'errno':RET.PARAMERR,'errmsg':'参数不完整'})
+
+    if not re.match('^1[358]\d{9}$|^147\d{8}$|^176\d{8}$',mobile):
+        return jsonify({'errno':RET.PARAMERR,'errmsg':'手机号码错误'})
+    try:
+        user = User.query.filter_by(mobile=mobile).first()
+        if not user:
+            return jsonify({'errno':RET.NODATA,'errmsg':'用户名或者密码错误'})
+    except Exception as e:
+        return jsonify({'errno':RET.DBERR,'errmsg':'数据库查询失败'})
+
+    if not user.check_password(password):
+        return jsonify({'errno':RET.NODATA,'errmsg':'用户名或者密码错误'})
+
+    session['user_id'] = user.id
+    session['username'] = user.name
+
+    return jsonify({'errno':RET.OK,'errmsg':'登陆成功'})
