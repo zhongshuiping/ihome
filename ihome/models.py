@@ -42,7 +42,12 @@ class User(BaseModel,db.Model):
         }
         return data
 
-
+    def to_data(self):
+        data = {
+            'real_name':self.real_name,
+            'id_card':self.id_card
+        }
+        return data
 
 class Area(BaseModel, db.Model):
     """城区"""

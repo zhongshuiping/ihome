@@ -26,7 +26,10 @@ $(document).ready(function(){
         if(data.errno=='0'){
             $('#user-name').html(data.data.name)
             $('#user-mobile').html(data.data.mobile)
-        }else {
+        }else if(data.errno=='4101'){
+            alert('请先登陆')
+            window.location.href='/'
+        }else{
             alert(data.errmsg)
             window.location.href='/'
         }

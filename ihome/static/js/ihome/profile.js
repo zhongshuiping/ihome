@@ -17,6 +17,9 @@ $(document).ready(function () {
         if (data.errno=='0'){
              $('#user-avatar').attr('src',data.data.avatar)
             $('#user-name').val(data.data.name)
+        }else if(data.errno=='4101'){
+            alert('请登陆')
+            window.location.href = '/'
         }
     });
 
@@ -45,6 +48,33 @@ $(document).ready(function () {
     });
 
     // TODO: 管理用户名修改的逻辑
+    $('#form-name').submit(function (event) {
 
+        event.preventDefault();
+        var name = $('#user-name').val();
+        console.log(name)
+        params = {
+            'name':name
+        };
+        $.ajax({
+            url:'/api/v1_0/name',
+            type:'put',
+            data:JSON.stringify(params),
+            contentType:'application/json',
+            headers:{'X-CSRFToken':getCookie('csrf_token')},
+            success:function (data) {
+                if (data.errno=='0'){
+                    showSuccessMsg();
+                    window.location.href='/my.html'
+                }else if(data.errno=='4101'){
+                    alert('请登陆')
+                    window.location.href='/'
+                }else{
+                    alert(data.errmsg)
+                }
+            }
+        })
+
+    });
 })
 
