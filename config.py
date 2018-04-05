@@ -4,7 +4,7 @@ import logging
 
 class Config(object):
 
-    SECRET_KEY = uuid.uuid4().hex
+    SECRET_KEY = 'qwertyasdfghzxcvbnpoiuytrlkjhgfmnbvcx'
 
     DEBUG = True
 

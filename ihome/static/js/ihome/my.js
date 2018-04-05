@@ -22,5 +22,13 @@ function logout() {
 $(document).ready(function(){
 
     // TODO: 在页面加载完毕之后去加载个人信息
-
+    $.get('/api/v1_0/users',function (data) {
+        if(data.errno=='0'){
+            $('#user-name').html(data.data.name)
+            $('#user-mobile').html(data.data.mobile)
+        }else {
+            alert(data.errmsg)
+            window.location.href='/'
+        }
+    })
 });

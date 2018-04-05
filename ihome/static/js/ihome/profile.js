@@ -13,8 +13,36 @@ function getCookie(name) {
 
 $(document).ready(function () {
     // TODO: 在页面加载完毕向后端查询用户的信息
+    $.get('/api/v1_0/users',function (data) {
+        if (data.errno=='0'){
+             $('#user-avatar').attr('src',data.data.avatar)
+            $('#user-name').val(data.data.name)
+        }
+    });
 
     // TODO: 管理上传用户头像表单的行为
+    $('#form-avatar').submit(function (event) {
+        event.preventDefault();
+
+        $(this).ajaxSubmit({
+            url:'/api/v1_0/avatar',
+            type:'post',
+            headers: {
+                   'X-CSRFToken':getCookie('csrf_token')
+               },
+            success:function (data) {
+                if (data.errno == '0'){
+                    alert('上传文件成功')
+                }else if(data.errno == '4101'){
+                    alert('请登陆')
+                    window.location.href = '/'
+                }else{
+                    alert(data.errmsg)
+                }
+            }
+        });
+
+    });
 
     // TODO: 管理用户名修改的逻辑
 

@@ -33,6 +33,15 @@ class User(BaseModel,db.Model):
     def check_password(self,value):
         return check_password_hash(self.password_hash,value)
 
+    def to_dict(self):
+        data = {
+            'avatar': self.avatar_url,
+            'mobile': self.mobile,
+            'name': self.name,
+            'user_id': self.id
+        }
+        return data
+
 
 
 class Area(BaseModel, db.Model):
