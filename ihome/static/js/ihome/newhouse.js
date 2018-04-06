@@ -50,7 +50,7 @@ $(document).ready(function(){
                     $('#form-house-info').hide();
                     $('#form-house-image').show();
                     $('#house-id').val(data.data.house_id);
-                    alert(data.data.house_id)
+
                 }else if(data.errno=='4101'){
                     window.location.href = '/'
                 }else {
@@ -75,7 +75,8 @@ $(document).ready(function(){
             headers:{'X-CSRFToken':getCookie('csrf_token')},
             success:function (data) {
                 if(data.errno=='0'){
-                    window.location.href = '/detail.html'
+                    alert('添加成功')
+                    $('.house-image-cons').append('<img src="'+ data.data.url+'">')
                 }else{
                     alert(data.errmsg)
                 }

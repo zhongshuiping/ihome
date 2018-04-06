@@ -121,7 +121,7 @@ class House(BaseModel, db.Model):
             "hid": self.id,
             "user_id": self.user_id,
             "user_name": self.user.name,
-            "user_avatar": constants.QINIU_URL_DOMAIN + self.user.avatar_url if self.user.avatar_url else "",
+            "user_avatar": self.user.avatar_url if self.user.avatar_url else "",
             "title": self.title,
             "price": self.price,
             "address": self.address,
