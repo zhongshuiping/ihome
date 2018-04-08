@@ -42,6 +42,7 @@ $(document).ready(function(){
                 $('.book-house').hide()
             }else{
                 $('.book-house').show()
+                $('.book-house').attr('href','/booking.html?hid='+houseId)
             }
             mySwiper()
         }else if(data.errno=='4101'){
