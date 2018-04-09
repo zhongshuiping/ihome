@@ -149,14 +149,11 @@ def set_house_image():
     try:
 
         house.index_image_url = QINIU_URL_DOMAIN + key
-
-
         db.session.commit()
     except Exception as e:
         current_app.logger.error(e)
         db.session.rollback()
         return jsonify({'errno': RET.DBERR, 'errmsg': '保存房屋失败'})
-
 
     return jsonify({'errno':RET.OK,'errmsg':'上传房屋图片成功','data':{'url':QINIU_URL_DOMAIN+key}})
 
@@ -289,3 +286,20 @@ def get_house():
     except Exception as e:
         current_app.logger.error(e)
         return jsonify({'errno':RET.DBERR,'errmsg':'查询数据库的房子信息失败'})
+
+'''
+查询登陆用户发布的房源
+'''
+@api.route('/houses/user')
+@login_required
+def get_user_house():
+    try:
+        user_id = g.user_id
+        houses = House.query.filter(House.user_id==user_id).all()
+    except Exception as e:
+        return jsonify({'errno':RET.DBERR,'errmsg':'查询数据库房子失败'})
+    house_list = []
+    for house in houses:
+        house_list.append(house.to_basic_dict())
+
+    return jsonify({'errno':RET.OK,'errmsg':'查询成功','data':house_list})

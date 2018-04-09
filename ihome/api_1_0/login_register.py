@@ -1,4 +1,4 @@
-from flask import request,jsonify,current_app,session
+from flask import request,jsonify,current_app,session,g
 from . import api
 from ihome.utils.response_code import RET
 import re
@@ -81,3 +81,27 @@ def login():
     session['username'] = user.name
 
     return jsonify({'errno':RET.OK,'errmsg':'登陆成功'})
+
+'''
+判断用户是否登陆
+'''
+@api.route('/sessions')
+def check_login():
+
+    user_id = session.get('user_id')
+    username = session.get('username')
+    if not user_id:
+        return jsonify({'errno':RET.SESSIONERR,'errmsg':'没有登陆'})
+    try:
+        user = User.query.get(user_id)
+    except Exception as e:
+        return jsonify({'errno':RET.DBERR,'errmsg':'查询用户失败'})
+    flag = 0   #是否实名认证,1代码有实名认证 0 表示没有
+    if user.real_name and user.id_card:
+        flag = 1
+
+    to_dict = {
+        'username':username,
+        'flag':flag
+    }
+    return jsonify({'errno':RET.OK,'errmsg':'已经登陆','data':to_dict})

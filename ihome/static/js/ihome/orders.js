@@ -19,10 +19,57 @@ $(document).ready(function(){
     $(window).on('resize', centerModals);
 
     // TODO: 查询房客订单
+    $.get('/api/v1_0/orders'+'?role=custom',function (data) {
+        if(data.errno=='0'){
+            var html = template('orders-list-tmpl',{'orders':data.orders});
+            $('.orders-list').html(html)
+
+        }else if(data.errno='4101'){
+            window.location.href = '/'
+        }else{
+            alert(data.errmsg)
+        }
+    });
+
+    $(".order-comment").on("click", function(){
+                var orderId = $(this).parents("li").attr("order-id");
+                $(".modal-comment").attr("order-id", orderId);
+    });
 
     // TODO: 查询成功之后需要设置评论的相关处理
-    $(".order-comment").on("click", function(){
+    $(".order-comment").click(function ()
+
+    {
         var orderId = $(this).parents("li").attr("order-id");
         $(".modal-comment").attr("order-id", orderId);
-    });
+
+        var orderId = $(this).attr("order-id");
+        var comment = $("#comment").val()
+        if (!comment) return;
+        var data = {
+            order_id: orderId,
+            comment: comment
+        };
+        // 处理评论
+        $.ajax({
+            url: "/api/v1_0/orders/" + orderId + "/comment",
+            type: "PUT",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: "json",
+            headers: {
+                "X-CSRFTOKEN": getCookie("csrf_token"),
+            },
+            success: function (resp) {
+                if ("4101" == resp.errno) {
+                    location.href = "/login.html";
+                } else if ("0" == resp.errno) {
+                    $(".orders-list>li[order-id=" + orderId + "]>div.order-content>div.order-text>ul li:eq(4)>span").html("已完成");
+                    $("ul.orders-list>li[order-id=" + orderId + "]>div.order-title>div.order-operate").hide();
+                    $("#comment-modal").modal("hide");
+                }
+            }
+        });
+    })
+
 });

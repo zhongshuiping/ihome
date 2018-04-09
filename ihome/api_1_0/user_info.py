@@ -84,6 +84,7 @@ def update_name():
     except Exception as e:
         current_app.logger.error(e)
         return jsonify({'errno':RET.DATAERR,'errmsg':'查询数据库失败'})
+    session['username'] = name
     return jsonify({'errno':RET.OK,'errmsg':'修改成功'})
 
 '''

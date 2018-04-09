@@ -213,7 +213,7 @@ class Order(BaseModel, db.Model):
         order_dict = {
             "order_id": self.id,
             "title": self.house.title,
-            "img_url": constants.QINIU_URL_DOMAIN + self.house.index_image_url if self.house.index_image_url else "",
+            "img_url": self.house.index_image_url ,
             "start_date": self.begin_date.strftime("%Y-%m-%d"),
             "end_date": self.end_date.strftime("%Y-%m-%d"),
             "ctime": self.create_time.strftime("%Y-%m-%d %H:%M:%S"),
